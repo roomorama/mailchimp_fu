@@ -1,0 +1,18 @@
+# Configuration file for mailchimp_fu
+# Enter your MailChimp account information here
+# http://www.mailchimp.com
+
+# Development environment
+development:
+  username: username
+  password: password
+
+# Test environment
+test:
+  username: username
+  password: password
+
+# Production environment
+production:
+  username: username
+  password: password

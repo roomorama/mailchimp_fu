@@ -1,0 +1,1 @@
+require 'mailchimp_fu'
