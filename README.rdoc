@@ -1,0 +1,35 @@
+= mailchimp_fu
+
+http://github.com/donaldpiret/mailchimp_fu/tree/master
+
+== DESCRIPTION:
+
+Mailchimp_fu is a collection of modules to help with the the integration
+of MailChimp in your rails application. 
+
+== FEATURES:
+
+* acts_as_mailchimp_subscriber
+  Automatic subscription and update of model instances to mailchimp lists
+
+* MailChimp class
+  Direct ruby function access to the MailChimp API
+
+== acts_as_mailchimp_subscriber
+
+=== EXAMPLES:
+
+Example user:
+  class User < ActiveRecord::Base
+
+	acts_as_mailchimp_subscriber :all_users
+	acts_as_mailchimp_subscriber :unconfirmed, :if => Proc.new {|user| !user.confirmed?}
+
+  end
+
+== MailChimp
+
+MailChimp is a wrapper class around the MailChimp API. It will give you direct ruby programmatic access to most
+of the MailChimp API functions.
+
+=== EXAMPLES:
