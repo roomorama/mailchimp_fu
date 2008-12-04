@@ -11,7 +11,7 @@ module BigBentoBox
     
     module ClassMethods
       
-      def acts_as_mailchimp_subscriber(:list, &block)
+      def acts_as_mailchimp_subscriber(list, &block)
         #self.send(:include, MailchimpSubscriber)
       end
         
