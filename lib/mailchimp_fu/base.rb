@@ -1,6 +1,5 @@
 require 'xmlrpc/client'
 require 'mailchimp_fu/acts/mailchimp_subscriber'
-require 'mailchimp_fu/mail_chimp'
 
 module BigBentoBox
   module MailchimpFu
