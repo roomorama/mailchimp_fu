@@ -1,2 +1,6 @@
-require 'acts_as_mailchimp_subscriber'
-ActiveRecord::Base.send(:include, BigBentoBox::Acts::MailchimpSubscriber)
+require 'activesupport' unless defined? ActiveSupport
+require 'activerecord' unless defined? ActiveRecord
+
+require 'mailchimp_fu/base'
+
+ActiveRecord::Base.send(:include, BigBentoBox::MailchimpFu)
