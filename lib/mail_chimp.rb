@@ -67,7 +67,7 @@ class MailChimp
       email_type = options.delete(:email_type) || 'html'
       double_optin = options.delete(:double_optin) || false
       merge_vars = {}
-      options.each do { |key, value|
+      options.each { |key, value|
         merge_vars[key.to_s.upcase] = value
       }
       xmlrpc_client.call("listSubscribe", api_key, list_id(name), email.downcase, merge_vars, email_type, double_optin)
@@ -86,7 +86,7 @@ class MailChimp
       email_type = options.delete(:email_type) || 'html'
       replace_interests = options.delete(:replace_interests) || true
       merge_vars = {}
-      options.each do { |key, value|
+      options.each { |key, value|
         merge_vars[key.to_s.upcase] = value
       }
       xmlrpc_client.call("listUpdateMember", api_key, list_id(name), email, merge_vars, email_type, replace_interests)
