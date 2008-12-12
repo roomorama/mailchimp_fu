@@ -14,6 +14,22 @@ class MailChimp
       @@cached_lists = xmlrpc_client.call("lists", api_key)
     end
     
+    #Subscribe a batch of email addresses to a list at once 
+    # Batch is an array of email addresses or an optional hash containing {:email => "", :email_type => ""}
+    def list_batch_subscribe(name, emails, double_optin = false, update_existing = true, replace_interests = true, default_type = 'html')
+      batch_list = []
+      emails.each do |email|
+        if email.is_a? String
+          batch_list << {:EMAIL => email, :EMAIL_TYPE => default_type}
+        elsif email.is_a? Hash
+          batch_list << {:EMAIL => email[:email], :EMAIL_TYPE => email[:email_type]}
+        elsif email.is_a? Array
+          batch_list << {:EMAIL => email.first, :EMAIL_TYPE => email.last}
+        end
+      end
+      xmlrpc_client.call("listBatchSubscribe", api_key, list_id(name), batch_list, double_optin, update_existing, replace_interests)
+    end
+    
     # Add a single Interest Group
     def list_interest_group_add(name, group_name)
       name = list_name(name)
