@@ -147,7 +147,7 @@ class MailChimp
   
     # Return an instance of the xml_rpc client for connecting to the mailchimp API
     def xmlrpc_client
-      @@xmlrpc_client ||= XMLRPC::Client.new2("http://api.mailchimp.com/1.1/")
+      @@xmlrpc_client ||= XMLRPC::Client.new2("http://api.mailchimp.com/1.1/", nil, 180)
     end
   end
 end
