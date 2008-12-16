@@ -15,16 +15,21 @@ class MailChimp
     end
     
     #Subscribe a batch of email addresses to a list at once 
-    # Batch is an array of email addresses or an optional hash containing {:email => "", :email_type => ""}
-    def list_batch_subscribe(name, emails, double_optin = false, update_existing = true, replace_interests = true, default_type = 'html')
+    # Batch is an array of either email addresses or hashes containing at least the :email field
+    # This hash can contain other merge vars
+    def list_batch_subscribe(name, user_hashes, double_optin = false, update_existing = true, replace_interests = true, default_type = 'html')
       batch_list = []
-      emails.each do |email|
+      user_hashes.each do |email|
         if email.is_a? String
           batch_list << {:EMAIL => email, :EMAIL_TYPE => default_type}
         elsif email.is_a? Hash
-          batch_list << {:EMAIL => email[:email], :EMAIL_TYPE => email[:email_type]}
-        elsif email.is_a? Array
-          batch_list << {:EMAIL => email.first, :EMAIL_TYPE => email.last}
+          email_address = email.delete(:email)
+          email_type = email.delete(:email_type) || default_type
+          merge_vars = {:EMAIL => email_address, :EMAIL_TYPE => email_type}
+          email.each do { |key, value|
+            merge_vars[key.to_s.upcase] = value
+          }
+          batch_list << merge_vars
         end
       end
       xmlrpc_client.call("listBatchSubscribe", api_key, list_id(name), batch_list, double_optin, update_existing, replace_interests)
