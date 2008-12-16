@@ -95,7 +95,7 @@ class MailChimp
     end
     
     # Unsubscribe the given email address from the list
-    def list_unsubscribe(name, email, delete_member = true, send_goodbye = false, send_notify = false)
+    def list_unsubscribe(name, email, delete_member = false, send_goodbye = false, send_notify = false)
       name = list_name(name)
       xmlrpc_client.call("listUnsubscribe", api_key, list_id(name), email.downcase, delete_member, send_goodbye, send_notify)
     end
