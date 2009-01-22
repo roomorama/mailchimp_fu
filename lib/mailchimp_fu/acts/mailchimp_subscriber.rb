@@ -1,4 +1,5 @@
 require 'xmlrpc/client'
+require 'mail_chimp'
 module BigBentoBox
   module MailchimpFu
     
@@ -12,7 +13,7 @@ module BigBentoBox
         mattr_reader :mailchimp_config
         mattr_reader :mailchimp_apikey
         begin
-          @@mailchimp_config = YAML.load(File.open("#{RAILS_ROOT}/config/mailchimp_fu.yml"))[Rails.env].symbolize_keys
+          @@mailchimp_config = YAML.load(File.open("#{ENV['RAILS_ROOT']}/config/mailchimp_fu.yml"))[ENV["RAILS_ENV"]].symbolize_keys
           @@mailchimp_apikey = MailChimp.login(@@mailchimp_config[:username], @@mailchimp_config[:password])
         end
         

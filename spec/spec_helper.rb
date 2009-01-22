@@ -1,31 +1,23 @@
-require 'rubygems'
-gem 'rspec'
-require 'spec'
+begin
+  #require File.dirname(__FILE__) + '/../../../../spec/spec_helper'
+  ENV["RAILS_ENV"] = "test"
+  require 'rubygems'
+  require 'active_record'
+  require 'spec'
+rescue LoadError
+  puts "You need to install rspec in your base app"
+  exit
+end
 
-$KCODE='u'
+ENV["RAILS_ROOT"] = File.dirname(__FILE__) + '/../../../..'
+
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 require 'mailchimp_fu'
+ 
+plugin_spec_dir = File.dirname(__FILE__)
+ActiveRecord::Base.logger = Logger.new(plugin_spec_dir + "/debug.log")
+ 
 
-ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :dbfile => ":memory:")
-
-def setup_db
-  ActiveRecord::Schema.define(:version => 1) do
-    create_table :users do |t|
-      t.string :username, :email, :first_name, :last_name, :city
-      t.integer :age
-      t.boolean :male
-    end
-  end
-end
-
-setup_db
-
-def cleanup_db
-  ActiveRecord::Base.connection.tables.each do |table|
-    ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
-  end
-end
-
-class User < ActiveRecord::Base
-  acts_as_mailchimp_subscriber :sample
-end
+databases = YAML::load(IO.read(plugin_spec_dir + "/db/database.yml"))
+ActiveRecord::Base.establish_connection(databases[ENV["DB"] || "sqlite3"])
+load(File.join(plugin_spec_dir, "db", "schema.rb"))

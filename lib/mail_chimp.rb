@@ -26,7 +26,7 @@ class MailChimp
           email_address = email.delete(:email)
           email_type = email.delete(:email_type) || default_type
           merge_vars = {:EMAIL => email_address, :EMAIL_TYPE => email_type}
-          email.each do { |key, value|
+          email.each { |key, value|
             merge_vars[key.to_s.upcase] = value
           }
           batch_list << merge_vars
