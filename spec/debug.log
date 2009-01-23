@@ -1881,3 +1881,168 @@
   [4;36;1mUserWithMergeVars Create (0.1ms)[0m   [0;1mINSERT INTO "user_with_merge_vars" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES('waterloo', 'donaldpiret', 't', 'Donald', 'Piret', 24, 'donald@donaldpiret.com')[0m
   [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, 'test@test.com')[0m
   [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL)[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar(255), "email" varchar(255), "first_name" varchar(255), "last_name" varchar(255), "city" varchar(255), "age" integer, "male" boolean) [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TABLE "user_with_merge_vars" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar(255), "last_name" varchar(255), "username" varchar(255), "city" varchar(255), "email" varchar(255), "age" integer, "male" boolean) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mSELECT version FROM "schema_migrations"[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('0')[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Destroy (0.1ms)[0m   [0;1mDELETE FROM "users" WHERE "id" = 1[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Destroy (0.1ms)[0m   [0;1mDELETE FROM "users" WHERE "id" = 2[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUserWithMergeVars Create (0.1ms)[0m   [0;1mINSERT INTO "user_with_merge_vars" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES('waterloo', 'donaldpiret', 't', 'Donald', 'Piret', 24, 'donald@donaldpiret.com')[0m
+  [4;35;1mUserWithMergeVars Update (0.1ms)[0m   [0mUPDATE "user_with_merge_vars" SET "email" = 'test@test.com', "first_name" = 'Daniel' WHERE "id" = 1[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;35;1mUser Update (0.1ms)[0m   [0mUPDATE "users" SET "email" = 'test@test.com' WHERE "id" = 4[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;35;1mUser Update (0.1ms)[0m   [0mUPDATE "users" SET "first_name" = 'piret' WHERE "id" = 5[0m
+  [4;36;1mUserWithMergeVars Create (0.1ms)[0m   [0;1mINSERT INTO "user_with_merge_vars" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES('waterloo', 'donaldpiret', 't', 'Donald', 'Piret', 24, 'donald@donaldpiret.com')[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, 'test@test.com')[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL)[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar(255), "email" varchar(255), "first_name" varchar(255), "last_name" varchar(255), "city" varchar(255), "age" integer, "male" boolean, "wants_email" boolean) [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TABLE "user_with_merge_vars" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar(255), "last_name" varchar(255), "username" varchar(255), "city" varchar(255), "email" varchar(255), "age" integer, "male" boolean) [0m
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM "schema_migrations"[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('0')[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Destroy (0.1ms)[0m   [0;1mDELETE FROM "users" WHERE "id" = 1[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Destroy (0.1ms)[0m   [0;1mDELETE FROM "users" WHERE "id" = 2[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "wants_email" = 'f' WHERE "id" = 3[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 'f', NULL, NULL, NULL, NULL, 'unsubbed@donaldpiret.com')[0m
+  [4;35;1mUser Update (0.1ms)[0m   [0mUPDATE "users" SET "wants_email" = 't' WHERE "id" = 5[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;35;1mUserWithMergeVars Create (0.1ms)[0m   [0mINSERT INTO "user_with_merge_vars" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES('waterloo', 'donaldpiret', 't', 'Donald', 'Piret', 24, 'donald@donaldpiret.com')[0m
+  [4;36;1mUserWithMergeVars Update (0.1ms)[0m   [0;1mUPDATE "user_with_merge_vars" SET "email" = 'test@test.com', "first_name" = 'Daniel' WHERE "id" = 1[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "email" = 'test@test.com' WHERE "id" = 7[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "first_name" = 'piret' WHERE "id" = 8[0m
+  [4;35;1mUserWithMergeVars Create (0.1ms)[0m   [0mINSERT INTO "user_with_merge_vars" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES('waterloo', 'donaldpiret', 't', 'Donald', 'Piret', 24, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'test@test.com')[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar(255), "email" varchar(255), "first_name" varchar(255), "last_name" varchar(255), "city" varchar(255), "age" integer, "male" boolean, "wants_email" boolean) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mCREATE TABLE "user_with_merge_vars" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar(255), "last_name" varchar(255), "username" varchar(255), "city" varchar(255), "email" varchar(255), "age" integer, "male" boolean) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mSELECT version FROM "schema_migrations"[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('0')[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Destroy (0.1ms)[0m   [0;1mDELETE FROM "users" WHERE "id" = 1[0m
+  [4;35;1mUser Create (0.2ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Destroy (0.1ms)[0m   [0;1mDELETE FROM "users" WHERE "id" = 2[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "wants_email" = 'f' WHERE "id" = 3[0m
+  [4;35;1mUser Create (0.2ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 'f', NULL, NULL, NULL, NULL, 'unsubbed@donaldpiret.com')[0m
+  [4;35;1mUser Update (0.1ms)[0m   [0mUPDATE "users" SET "wants_email" = 't' WHERE "id" = 5[0m
+  [4;36;1mUser Create (2.0ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;35;1mUserWithMergeVars Create (0.1ms)[0m   [0mINSERT INTO "user_with_merge_vars" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES('waterloo', 'donaldpiret', 't', 'Donald', 'Piret', 24, 'donald@donaldpiret.com')[0m
+  [4;36;1mUserWithMergeVars Update (0.1ms)[0m   [0;1mUPDATE "user_with_merge_vars" SET "email" = 'test@test.com', "first_name" = 'Daniel' WHERE "id" = 1[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "email" = 'test@test.com' WHERE "id" = 7[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "first_name" = 'piret' WHERE "id" = 8[0m
+  [4;35;1mUserWithMergeVars Create (0.1ms)[0m   [0mINSERT INTO "user_with_merge_vars" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES('waterloo', 'donaldpiret', 't', 'Donald', 'Piret', 24, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'test@test.com')[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar(255), "email" varchar(255), "first_name" varchar(255), "last_name" varchar(255), "city" varchar(255), "age" integer, "male" boolean, "wants_email" boolean) [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TABLE "user_with_merge_vars" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar(255), "last_name" varchar(255), "username" varchar(255), "city" varchar(255), "email" varchar(255), "age" integer, "male" boolean) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM "schema_migrations"[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('0')[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Destroy (0.1ms)[0m   [0;1mDELETE FROM "users" WHERE "id" = 1[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Destroy (0.1ms)[0m   [0;1mDELETE FROM "users" WHERE "id" = 2[0m
+  [4;35;1mUser Create (0.4ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "wants_email" = 'f' WHERE "id" = 3[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 'f', NULL, NULL, NULL, NULL, 'unsubbed@donaldpiret.com')[0m
+  [4;35;1mUser Update (0.1ms)[0m   [0mUPDATE "users" SET "wants_email" = 't' WHERE "id" = 5[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;35;1mUserWithMergeVars Create (0.1ms)[0m   [0mINSERT INTO "user_with_merge_vars" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES('waterloo', 'donaldpiret', 't', 'Donald', 'Piret', 24, 'donald@donaldpiret.com')[0m
+  [4;36;1mUserWithMergeVars Update (0.1ms)[0m   [0;1mUPDATE "user_with_merge_vars" SET "email" = 'test@test.com', "first_name" = 'Daniel' WHERE "id" = 1[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "email" = 'test@test.com' WHERE "id" = 7[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "first_name" = 'piret' WHERE "id" = 8[0m
+  [4;35;1mUserWithMergeVars Create (0.1ms)[0m   [0mINSERT INTO "user_with_merge_vars" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES('waterloo', 'donaldpiret', 't', 'Donald', 'Piret', 24, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Create (0.2ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'test@test.com')[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar(255), "email" varchar(255), "first_name" varchar(255), "last_name" varchar(255), "city" varchar(255), "age" integer, "male" boolean, "wants_email" boolean) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE TABLE "user_with_merge_vars" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar(255), "last_name" varchar(255), "username" varchar(255), "city" varchar(255), "email" varchar(255), "age" integer, "male" boolean) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM "schema_migrations"[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('0')[0m
+  [4;35;1mUser Create (0.2ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Destroy (0.1ms)[0m   [0;1mDELETE FROM "users" WHERE "id" = 1[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Destroy (0.1ms)[0m   [0;1mDELETE FROM "users" WHERE "id" = 2[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "wants_email" = 'f' WHERE "id" = 3[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 'f', NULL, NULL, NULL, NULL, 'unsubbed@donaldpiret.com')[0m
+  [4;35;1mUser Update (0.1ms)[0m   [0mUPDATE "users" SET "wants_email" = 't' WHERE "id" = 5[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;35;1mUserWithMergeVars Create (0.1ms)[0m   [0mINSERT INTO "user_with_merge_vars" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES('waterloo', 'donaldpiret', 't', 'Donald', 'Piret', 24, 'donald@donaldpiret.com')[0m
+  [4;36;1mUserWithMergeVars Update (0.1ms)[0m   [0;1mUPDATE "user_with_merge_vars" SET "email" = 'test@test.com', "first_name" = 'Daniel' WHERE "id" = 1[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "email" = 'test@test.com' WHERE "id" = 7[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, 't', NULL, 'donald', NULL, NULL, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Update (0.1ms)[0m   [0;1mUPDATE "users" SET "first_name" = 'piret' WHERE "id" = 8[0m
+  [4;35;1mUserWithMergeVars Create (0.1ms)[0m   [0mINSERT INTO "user_with_merge_vars" ("city", "username", "male", "first_name", "last_name", "age", "email") VALUES('waterloo', 'donaldpiret', 't', 'Donald', 'Piret', 24, 'donald@donaldpiret.com')[0m
+  [4;36;1mUser Create (0.1ms)[0m   [0;1mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'test@test.com')[0m
+  [4;35;1mUser Create (0.1ms)[0m   [0mINSERT INTO "users" ("city", "username", "wants_email", "male", "first_name", "last_name", "age", "email") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)[0m

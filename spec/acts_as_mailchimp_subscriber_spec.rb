@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/spec_helper.rb'
 
 class User < ActiveRecord::Base
-  acts_as_mailchimp_subscriber :sample, :email => :email
+  acts_as_mailchimp_subscriber :sample, :email => :email, :enabled => :wants_email
   
 end
 
@@ -58,7 +58,7 @@ describe DonaldPiret::MailchimpFu::MailchimpSubscriber do
       MailChimp.stub!(:login).and_return(true)
       MailChimp.stub!(:api_key).and_return('TEST')
       MailChimp.should_receive(:list_subscribe).with('sample','donald@donaldpiret.com', {}).and_return(true)
-      @user = User.create(:email => 'donald@donaldpiret.com', :first_name => 'donald')
+      @user = User.create(:email => 'donald@donaldpiret.com', :first_name => 'donald', :wants_email => true)
     end
     
     it "should call the after_mailchimp_subscriber_update method on an object that has the mailchimp subscriber mixed in" do
@@ -76,6 +76,22 @@ describe DonaldPiret::MailchimpFu::MailchimpSubscriber do
       @user = UserWithMergeVars.create(:email => 'donald@donaldpiret.com', :first_name => 'Donald', :last_name => 'Piret', :username => 'donaldpiret', :city => 'waterloo', :age => 24, :male => true)
       MailChimp.should_receive(:list_update_member).with('sample','donald@donaldpiret.com', {:EMAIL => 'test@test.com', :first_name => 'Daniel', :last_name => 'Piret', :username => 'donaldpiret', :my_city => 'WATERLOO', :age => 24, :male => true, :static => 'Static'})
       @user.update_attributes!({:email => 'test@test.com', :first_name => 'Daniel'})
+    end
+    
+    it "should call the MailChimp.list_subscribe method if the enabled method was changed from false to true" do
+      MailChimp.should_receive(:list_subscribe).with('sample','unsubbed@donaldpiret.com', {}).and_return(true)
+      @user = User.create(:email => 'unsubbed@donaldpiret.com', :wants_email => false)
+      @user.wants_email.should eql(false)
+      MailChimp.should_receive(:list_subscribe).with('sample','unsubbed@donaldpiret.com')
+      MailChimp.should_receive(:list_update_member).and_return(true)
+      @user.update_attribute(:wants_email, true)
+    end
+    
+    it "should call the MailChimp.list_unsubscribe method if the enabled method was changed from true to false" do
+      @user.wants_email.should eql(true)
+      MailChimp.should_receive(:list_unsubscribe).with('sample','donald@donaldpiret.com')
+      MailChimp.should_receive(:list_update_member).and_return(true)
+      @user.update_attribute(:wants_email, false)
     end
     
   end

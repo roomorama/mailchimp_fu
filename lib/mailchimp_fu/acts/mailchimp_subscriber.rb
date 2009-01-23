@@ -58,6 +58,11 @@ module DonaldPiret
         self.mailchimp_merge_vars.each { |mv|
           merge_vars[mv.to_sym] = mailchimp_merge_var(mv)
         }
+        # Subscribe or unsubscribe the user if the enabled field has changed
+        if self.mailchimp_enabled_column && self.send("#{self.mailchimp_enabled_column}_changed?")
+          self.send(self.mailchimp_enabled_column.to_sym) ? MailChimp.list_subscribe(self.mailchimp_list_name, email_address) : MailChimp.list_unsubscribe(self.mailchimp_list_name, email_address)
+        end
+        # Then update the member
         MailChimp.list_update_member(self.mailchimp_list_name, email_address, merge_vars)
       end
       
