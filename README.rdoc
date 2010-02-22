@@ -7,6 +7,10 @@ http://github.com/donaldpiret/mailchimp_fu/tree/master
 Mailchimp_fu is a collection of modules to help with the the integration
 of MailChimp in your rails application. 
 
+== INSTALLATION:
+
+script/install git://github.com/donaldpiret/mailchimp_fu.git
+
 == FEATURES:
 
 * acts_as_mailchimp_subscriber
@@ -16,10 +20,6 @@ of MailChimp in your rails application.
   Direct ruby function access to the MailChimp API
 
 == acts_as_mailchimp_subscriber
-
-== Installation
-
-script/install git://github.com/donaldpiret/mailchimp_fu.git
 
 === EXAMPLES:
 
