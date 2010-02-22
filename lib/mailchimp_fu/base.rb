@@ -12,6 +12,7 @@ module DonaldPiret
     module ClassMethods
       
       def acts_as_mailchimp_subscriber(list, opts = {}, &block)
+        
         write_inheritable_attribute :mailchimp_list_name, list.to_s
         write_inheritable_attribute :mailchimp_email_column, opts[:email] || 'email'
         write_inheritable_attribute :mailchimp_enabled_column, opts[:enabled]
