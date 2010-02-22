@@ -8,7 +8,6 @@ class MailChimp
   
   class << self
     
-    
     # Retrieve all of the lists defined for your user account
     def lists
       @@cached_lists = xmlrpc_client.call("lists", api_key)
@@ -26,13 +25,17 @@ class MailChimp
           email_address = email.delete(:email)
           email_type = email.delete(:email_type) || default_type
           merge_vars = {:EMAIL => email_address, :EMAIL_TYPE => email_type}
-          email.each do { |key, value|
+          email.each { |key, value|
             merge_vars[key.to_s.upcase] = value
           }
           batch_list << merge_vars
         end
       end
       xmlrpc_client.call("listBatchSubscribe", api_key, list_id(name), batch_list, double_optin, update_existing, replace_interests)
+    end
+    
+    def list_batch_unsubscribe(name, emails, delete_member = false, send_goodbye = true, send_notify = false)
+      xmlrpc_client.call("listBatchUnsubscribe", api_key, list_id(name), emails, delete_member, send_goodbye, send_notify)
     end
     
     # Add a single Interest Group
@@ -58,7 +61,7 @@ class MailChimp
     end
     
     # Get all of the list members for a list that are of a particular status
-    def list_members(name, status = 'subscribed', start = 0, limit = 100)
+    def list_members(name, status = 'subscribed', start = "", limit = "")
       name = list_name(name)
       xmlrpc_client.call("listMembers", api_key, list_id(name), status, start, limit)
     end
@@ -116,10 +119,9 @@ class MailChimp
     # Log into the MailChimp API and return an API key
     def login(username, password)
       @@api_key = xmlrpc_client.call("login", username, password)
-    rescue
-      raise(MailChimpLoginError.new, "Could not login to the MailChimp API using username: #{username} and password: #{password}")
+    rescue => e
+      raise(MailChimpLoginError.new, "Could not login to the MailChimp API using username: #{username} and password: #{password}. #{e.message}")
     end
-    
     
   protected
     # Return the current API key or raise an error

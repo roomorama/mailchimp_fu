@@ -17,13 +17,20 @@ of MailChimp in your rails application.
 
 == acts_as_mailchimp_subscriber
 
+== Installation
+
+script/install git://github.com/donaldpiret/mailchimp_fu.git
+
 === EXAMPLES:
 
 Example user:
   class User < ActiveRecord::Base
 
-	acts_as_mailchimp_subscriber :all_users
-	acts_as_mailchimp_subscriber :unconfirmed, :if => Proc.new {|user| !user.confirmed?}
+	 acts_as_mailchimp_subscriber 'My Mailchimp List', :email => :user_email, :enabled => :wants_emails do
+		 # Merge fields
+		 name :name
+		 city :city
+	 end
 
   end
 
