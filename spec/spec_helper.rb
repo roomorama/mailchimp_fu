@@ -10,6 +10,7 @@ rescue LoadError
 end
 
 ENV["RAILS_ROOT"] = File.dirname(__FILE__) + '/../../../..'
+RAILS_ROOT = File.dirname(__FILE__) + '/../../../..'
 
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 require 'mailchimp_fu'

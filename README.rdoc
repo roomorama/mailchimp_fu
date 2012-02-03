@@ -7,10 +7,6 @@ http://github.com/donaldpiret/mailchimp_fu/tree/master
 Mailchimp_fu is a collection of modules to help with the the integration
 of MailChimp in your rails application. 
 
-== INSTALLATION:
-
-script/install git://github.com/donaldpiret/mailchimp_fu.git
-
 == FEATURES:
 
 * acts_as_mailchimp_subscriber
@@ -26,11 +22,8 @@ script/install git://github.com/donaldpiret/mailchimp_fu.git
 Example user:
   class User < ActiveRecord::Base
 
-	 acts_as_mailchimp_subscriber 'My Mailchimp List', :email => :user_email, :enabled => :wants_emails do
-		 # Merge fields
-		 name :name
-		 city :city
-	 end
+	acts_as_mailchimp_subscriber :all_users
+	acts_as_mailchimp_subscriber :unconfirmed, :if => Proc.new {|user| !user.confirmed?}
 
   end
 

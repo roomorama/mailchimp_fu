@@ -12,16 +12,15 @@ module DonaldPiret
     module ClassMethods
       
       def acts_as_mailchimp_subscriber(list, opts = {}, &block)
+        class_attribute :mailchimp_list_name
+        class_attribute :mailchimp_email_column
+        class_attribute :mailchimp_enabled_column
+        class_attribute :mailchimp_merge_vars
         
-        write_inheritable_attribute :mailchimp_list_name, list.to_s
-        write_inheritable_attribute :mailchimp_email_column, opts[:email] || 'email'
-        write_inheritable_attribute :mailchimp_enabled_column, opts[:enabled]
-        write_inheritable_attribute :mailchimp_merge_vars, MergeVars.new(&block)
-        
-        class_inheritable_reader :mailchimp_list_name
-        class_inheritable_reader :mailchimp_email_column
-        class_inheritable_reader :mailchimp_enabled_column
-        class_inheritable_reader :mailchimp_merge_vars
+        self.mailchimp_list_name = list.to_s
+        self.mailchimp_email_column = opts[:email] || 'email'
+        self.mailchimp_enabled_column = opts[:enabled]
+        self.mailchimp_merge_vars = MergeVars.new(&block)
         
         self.send(:include, MailchimpSubscriber)
       end

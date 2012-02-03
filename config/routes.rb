@@ -1,3 +1,3 @@
-ActionController::Routing::Routes.draw do |map|
-  map.mailchimp_unsubscribe '/mailchimp/callback', :controller => 'mailchimp', :action => 'callback'#, :conditions => { :method => :post }
+Rails.application.routes.draw do
+  match '/mailchimp/callback' => "mailchimp#callback", :as => 'mailchimp_unsubscribe'
 end

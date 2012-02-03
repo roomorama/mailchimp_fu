@@ -4,7 +4,7 @@ module DonaldPiret
     # options and querying them. This is especially useful
     # for giving users flexibility when using your plugin.
     class MergeVars
-      include Enumerable
+      #include Enumerable
       
       def initialize(&block)
       #def initialize(*options, &block)
