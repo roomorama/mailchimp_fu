@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.summary = "Mailchimp integration library for rails."
   s.description = "This gem allows you to copy your static assets to include a unique hash in their filename. By using this and modifying your Rails asset path you can easily enable your Rails application to serve static content using CloudFront with a custom origin policy."
   s.files = Dir["{app,lib,config}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.version = "0.0.1"
+  s.version = "0.0.2"
   s.author = "Donald Piret"
   s.email = "donald@donaldpiret.com"
   s.homepage = "http://donaldpiret.com"
