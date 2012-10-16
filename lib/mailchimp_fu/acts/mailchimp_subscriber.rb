@@ -1,5 +1,5 @@
 require 'xmlrpc/client'
-require 'mail_chimp'
+require 'gibbon'
 
 module DonaldPiret
   module MailchimpFu
@@ -24,15 +24,17 @@ module DonaldPiret
         mattr_reader :mailchimp_enabled
         begin
           @@mailchimp_config = YAML.load(File.open("#{::Rails.root.to_s}/config/mailchimp_fu.yml"))[Rails.env.to_s].symbolize_keys rescue nil
-          @@mailchimp_enabled = @@malchimp_config[:enabled] != false
+          @@mailchimp_enabled = @@mailchimp_config[:enabled] != false
           if @@mailchimp_enabled
-            @@mailchimp_apikey = MailChimp.login(@@mailchimp_config[:username], @@mailchimp_config[:password])
+            @@mailchimp_apikey = @@mailchimp_config[:key]
+            @@gibbon = Gibbon.new(@@mailchimp_apikey)
           end
         rescue
         end
         base.instance_eval do
           after_create :after_mailchimp_subscriber_create
-          after_update :before_mailchimp_subscriber_update
+          around_update :around_mailchimp_subscriber_update
+          #after_update :before_mailchimp_subscriber_update
           after_destroy :after_mailchimp_subscriber_destroy
         end
       end
@@ -66,7 +68,7 @@ module DonaldPiret
       # After subscriber created callback
       # Do initial list registration
       def after_mailchimp_subscriber_create
-        wants_email = self.mailchimp_enabled_column ? self.send(self.mailchimp_enabled_column.to_sym) : true
+        wants_email = self.mailchimp_enabled_column ? self.send("#{self.mailchimp_enabled_column}?") : true
         if wants_email
           logger.info "Calling MailChimpSubscriber subscribe after create"
           self.subscribe_to_mailchimp if @@mailchimp_enabled
@@ -75,22 +77,23 @@ module DonaldPiret
 
       # Before subscriber update callback
       # Do list update
-      def before_mailchimp_subscriber_update
+      def around_mailchimp_subscriber_update
         wants_email = self.mailchimp_enabled_column ? self.send(self.mailchimp_enabled_column.to_sym) : true
         wants_email_changed = self.mailchimp_enabled_column ? self.send((self.mailchimp_enabled_column.to_s + "_changed?").to_sym) : false
+        merge_vars_changed = merge_vars_changed?
+        old_email = self.send("#{self.mailchimp_email_column}_was") || self.send("#{self.mailchimp_email_column}")
+        yield if block_given?
         if wants_email_changed
           if wants_email
             logger.info "Calling MailChimpSubscriber subscribe after update"
             self.subscribe_to_mailchimp if @@mailchimp_enabled
-          else
-            old_email = self.send("#{self.mailchimp_email_column}_was") || self.send("#{self.mailchimp_email_column}")
+          else            
             logger.info "Calling MailChimpSubscriber unsubscribe after update"
             self.unsubscribe_from_mailchimp(old_email) if @@mailchimp_enabled
           end
         elsif wants_email
           email_changed = self.send("#{self.mailchimp_email_column}_changed?")
-          if email_changed || merge_vars_changed?
-            old_email = self.send("#{self.mailchimp_email_column}_was") || self.send("#{self.mailchimp_email_column}")
+          if email_changed || merge_vars_changed
             logger.info "Calling MailchimpWorker Async Update after update"
             self.update_mailchimp_subscription(old_email) if @@mailchimp_enabled
           end
@@ -108,10 +111,11 @@ module DonaldPiret
         email_address = self.send(self.mailchimp_email_column.to_sym)
         merge_vars = {}
         self.mailchimp_merge_vars.each { |mv|
-          merge_vars[mv.to_sym] = mailchimp_merge_var(mv) unless mailchimp_merge_var(mv).nil?
+          merge_vars[mv.upcase.to_sym] = mailchimp_merge_var(mv) unless mailchimp_merge_var(mv).nil?
         }
-        MailChimp.list_subscribe(self.mailchimp_list_name, email_address, merge_vars)
-        logger.info "Called MailChimp.list_subscribe member on #{email_address}"
+        #MailChimp.list_subscribe(self.mailchimp_list_name, email_address, merge_vars)
+        @@gibbon.list_subscribe({:id => self.mailchimp_list_name, :email_address => email_address, :merge_vars => merge_vars})
+        logger.info "Called Gibbon.list_subscribe member on #{email_address}"
       rescue => e
         if e.message =~ /is already subscribed to list/
           # User is already subscribed to list, so update instead
@@ -128,11 +132,12 @@ module DonaldPiret
         email_address = old_email || self.send(self.mailchimp_email_column.to_sym)
         merge_vars = {}
         self.mailchimp_merge_vars.each { |mv|
-          merge_vars[mv.to_sym] = mailchimp_merge_var(mv) unless mailchimp_merge_var(mv).nil?
+          merge_vars[mv.upcase.to_sym] = mailchimp_merge_var(mv) unless mailchimp_merge_var(mv).nil?
         }
-        merge_vars = merge_vars.merge(:email => self.send(self.mailchimp_email_column.to_sym)) if old_email != self.send(self.mailchimp_email_column.to_sym)
-        MailChimp.list_update_member(self.mailchimp_list_name, email_address, merge_vars)
-        logger.info "Called MailChimp.list_update member on #{email_address}"
+        merge_vars = merge_vars.merge(:EMAIL => self.send(self.mailchimp_email_column.to_sym)) if old_email != self.send(self.mailchimp_email_column.to_sym)
+        #MailChimp.list_update_member(self.mailchimp_list_name, email_address, merge_vars)
+        Gibbon.list_update_member({:id => self.mailchimp_list_name, :email_address => email_address, :merge_vars => merge_vars})
+        logger.info "Called Gibbon.list_update member on #{email_address}"
       rescue => e
         if e.message =~ /is already subscribed to list/
           # User is already subscribed to list, so update instead
@@ -140,7 +145,7 @@ module DonaldPiret
         elsif e.message.strip =~ /^There is no record of "(.+)" in the database$/
           self.subscribe_to_mailchimp
         elsif e.message.strip =~ /^The email address "(.+)" does not belong to this list$/
-          self.update_attribute(self.mailchimp_enabled_column.to_sym, false) if self.mailchimp_enabled_column
+          self.update_column(self.mailchimp_enabled_column.to_sym, false) if self.mailchimp_enabled_column
         else
           raise e
         end
@@ -148,8 +153,8 @@ module DonaldPiret
 
       def unsubscribe_from_mailchimp(old_email = nil)
         email_address = old_email || self.send(self.mailchimp_email_column.to_sym)
-        MailChimp.list_unsubscribe(self.mailchimp_list_name, email_address)
-        logger.info "Called MailChimp.list_unsubscribe member on #{email_address}"
+        Gibbon.list_unsubscribe({:id => self.mailchimp_list_name, :email_address => email_address})
+        logger.info "Called Gibbon.list_unsubscribe member on #{email_address}"
       rescue => e
         if e.message.strip =~ /^There is no record of "(.+)" in the database$/
           # Do nothing

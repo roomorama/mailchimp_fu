@@ -1,0 +1,4 @@
+# Test environment
+test:
+  key: "testing"
+  enabled: true
