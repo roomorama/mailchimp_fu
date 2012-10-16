@@ -28,10 +28,13 @@ module DonaldPiret
           if @@mailchimp_enabled
             @@mailchimp_apikey = @@mailchimp_config[:key]
             @@gibbon = Gibbon.new(@@mailchimp_apikey)
+            base.mailchimp_list_id = @@gibbon.lists({:filters => {:list_name => base.mailchimp_list_name}})["data"].first["id"] rescue nil
           end
         rescue
         end
         base.instance_eval do
+          
+          
           after_create :after_mailchimp_subscriber_create
           around_update :around_mailchimp_subscriber_update
           #after_update :before_mailchimp_subscriber_update

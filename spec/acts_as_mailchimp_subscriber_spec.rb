@@ -2,6 +2,15 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe DonaldPiret::MailchimpFu::MailchimpSubscriber do
   
+  describe :initialize do
+    use_vcr_cassette :mailchimp_lists
+    
+    it "should correctly fetch the mailchimp list id" do
+      User.mailchimp_list_name.should_not be_blank
+      User.mailchimp_list_id.should_not be_blank
+    end
+  end
+  
   describe :create do
     
     before(:each) do
@@ -16,13 +25,13 @@ describe DonaldPiret::MailchimpFu::MailchimpSubscriber do
   
     it "should call MailChimp.list_subscribe with 'sample' as list name and the user's email on user creation if the user's wants email is tue" do
       @user = User.new(:email => 'test@test.com', :wants_email => true)
-      Gibbon.any_instance.should_receive(:list_subscribe).with({:id=>"sample", :email_address=>"test@test.com", :merge_vars=>{}}).and_return(true)
+      Gibbon.any_instance.should_receive(:list_subscribe).with({:id=>"xxxxxxxx", :email_address=>"test@test.com", :merge_vars=>{}}).and_return(true)
       @user.save
     end
   
     it "should correctly set the mailchimp_vars" do
       @user = UserWithMergeVars.new(:email => 'donald@donaldpiret.com', :first_name => 'Donald', :last_name => 'Piret', :username => 'donaldpiret', :city => 'waterloo', :age => 24, :male => true)
-      Gibbon.any_instance.should_receive(:list_subscribe).with({:id => 'sample', :email_address => 'donald@donaldpiret.com', :merge_vars => {:FIRST_NAME => 'Donald', :LAST_NAME => 'Piret', :USERNAME => 'donaldpiret', :MY_CITY => 'WATERLOO', :AGE => 24, :MALE => true, :STATIC => 'Static'}}).and_return(true)
+      Gibbon.any_instance.should_receive(:list_subscribe).with({:id => 'xxxxxxxx', :email_address => 'donald@donaldpiret.com', :merge_vars => {:FIRST_NAME => 'Donald', :LAST_NAME => 'Piret', :USERNAME => 'donaldpiret', :MY_CITY => 'WATERLOO', :AGE => 24, :MALE => true, :STATIC => 'Static'}}).and_return(true)
       @user.save
     end
   
@@ -37,28 +46,28 @@ describe DonaldPiret::MailchimpFu::MailchimpSubscriber do
     
     it "should call MailChimp.list_update_member with the old email address if the email address was changed" do
       @user = User.create(:email => 'donald@donaldpiret.com', :first_name => 'donald', :wants_email => true)
-      Gibbon.any_instance.should_receive(:list_update_member).with({:id => 'sample', :email_address => 'donald@donaldpiret.com', :merge_vars => {:EMAIL => 'test@test.com'}})
+      Gibbon.any_instance.should_receive(:list_update_member).with({:id => 'xxxxxxxx', :email_address => 'donald@donaldpiret.com', :merge_vars => {:EMAIL => 'test@test.com'}})
       @user.update_attribute(:email, 'test@test.com')
     end
     
     it "should correctly set the mailchimp_vars" do
       Gibbon.any_instance.should_receive(:list_subscribe).with({:id => 'sample', :email_address => 'donald@donaldpiret.com', :merge_vars => {:FIRST_NAME => 'Donald', :LAST_NAME => 'Piret', :USERNAME => 'donaldpiret', :MY_CITY => 'WATERLOO', :AGE => 24, :MALE => true, :STATIC => 'Static'}}).and_return(true)
       @user = UserWithMergeVars.create(:email => 'donald@donaldpiret.com', :first_name => 'Donald', :last_name => 'Piret', :username => 'donaldpiret', :city => 'waterloo', :age => 24, :male => true)
-      Gibbon.any_instance.should_receive(:list_update_member).with({:id => 'sample', :email_address => 'donald@donaldpiret.com', :merge_vars => {:EMAIL => 'test@test.com', :FIRST_NAME => 'Daniel', :LAST_NAME => 'Piret', :USERNAME => 'donaldpiret', :MY_CITY => 'WATERLOO', :AGE => 24, :MALE => true, :STATIC => 'Static'}})
+      Gibbon.any_instance.should_receive(:list_update_member).with({:id => 'xxxxxxxx', :email_address => 'donald@donaldpiret.com', :merge_vars => {:EMAIL => 'test@test.com', :FIRST_NAME => 'Daniel', :LAST_NAME => 'Piret', :USERNAME => 'donaldpiret', :MY_CITY => 'WATERLOO', :AGE => 24, :MALE => true, :STATIC => 'Static'}})
       @user.update_attributes!({:email => 'test@test.com', :first_name => 'Daniel'})
     end
     
     it "should call the MailChimp.list_subscribe method if the enabled method was changed from false to true" do
       @user = User.create(:email => 'donald@donaldpiret.com', :first_name => 'donald', :wants_email => false)
       @user.wants_email.should eql(false)
-      Gibbon.any_instance.should_receive(:list_subscribe).with({:id => 'sample', :email_address => 'donald@donaldpiret.com', :merge_vars => {}})
+      Gibbon.any_instance.should_receive(:list_subscribe).with({:id => 'xxxxxxxx', :email_address => 'donald@donaldpiret.com', :merge_vars => {}})
       @user.update_attribute(:wants_email, true)
     end
     
     it "should call the MailChimp.list_unsubscribe method if the enabled method was changed from true to false" do
       @user = User.create(:email => 'donald@donaldpiret.com', :first_name => 'donald', :wants_email => true)
       @user.wants_email.should eql(true)
-      Gibbon.any_instance.should_receive(:list_unsubscribe).with({:id => 'sample', :email_address => 'donald@donaldpiret.com'})
+      Gibbon.any_instance.should_receive(:list_unsubscribe).with({:id => 'xxxxxxxx', :email_address => 'donald@donaldpiret.com'})
       @user.update_attribute(:wants_email, false)
     end
     
@@ -76,7 +85,7 @@ describe DonaldPiret::MailchimpFu::MailchimpSubscriber do
     end
     
     it "should call MailChimp.list_unsubscribe with the user's email" do
-      Gibbon.any_instance.should_receive(:list_unsubscribe).with({:id => 'sample', :email_address => 'donald@donaldpiret.com'})
+      Gibbon.any_instance.should_receive(:list_unsubscribe).with({:id => 'xxxxxxxx', :email_address => 'donald@donaldpiret.com'})
       @user.destroy
     end
     

@@ -13,6 +13,7 @@ module DonaldPiret
       
       def acts_as_mailchimp_subscriber(list, opts = {}, &block)
         class_attribute :mailchimp_list_name
+        class_attribute :mailchimp_list_id
         class_attribute :mailchimp_email_column
         class_attribute :mailchimp_enabled_column
         class_attribute :mailchimp_merge_vars

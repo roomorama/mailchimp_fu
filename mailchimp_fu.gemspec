@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "debugger"
   s.add_development_dependency "delayed_job"
   s.add_development_dependency "database_cleaner"
-  #s.add_development_dependency "webmock", ">= 1.7.0"
+  s.add_development_dependency "webmock", ">= 1.7.0"
   #s.add_development_dependency "savon_spec", ">= 0.1.6"
-  #s.add_development_dependency "vcr"
+  s.add_development_dependency "vcr"
 end
