@@ -1,9 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe DonaldPiret::MailchimpFu::MailchimpSubscriber do
+  before do
+    User.stub(:mailchimp_list_id).and_return('xxxxxxxx')
+    UserWithMergeVars.stub(:mailchimp_list_id).and_return('xxxxxxxx')
+  end
   
   describe :initialize do
-    use_vcr_cassette :mailchimp_lists
     
     it "should correctly fetch the mailchimp list id" do
       User.mailchimp_list_name.should_not be_blank
@@ -51,7 +54,7 @@ describe DonaldPiret::MailchimpFu::MailchimpSubscriber do
     end
     
     it "should correctly set the mailchimp_vars" do
-      Gibbon.any_instance.should_receive(:list_subscribe).with({:id => 'sample', :email_address => 'donald@donaldpiret.com', :merge_vars => {:FIRST_NAME => 'Donald', :LAST_NAME => 'Piret', :USERNAME => 'donaldpiret', :MY_CITY => 'WATERLOO', :AGE => 24, :MALE => true, :STATIC => 'Static'}}).and_return(true)
+      Gibbon.any_instance.should_receive(:list_subscribe).with({:id => 'xxxxxxxx', :email_address => 'donald@donaldpiret.com', :merge_vars => {:FIRST_NAME => 'Donald', :LAST_NAME => 'Piret', :USERNAME => 'donaldpiret', :MY_CITY => 'WATERLOO', :AGE => 24, :MALE => true, :STATIC => 'Static'}}).and_return(true)
       @user = UserWithMergeVars.create(:email => 'donald@donaldpiret.com', :first_name => 'Donald', :last_name => 'Piret', :username => 'donaldpiret', :city => 'waterloo', :age => 24, :male => true)
       Gibbon.any_instance.should_receive(:list_update_member).with({:id => 'xxxxxxxx', :email_address => 'donald@donaldpiret.com', :merge_vars => {:EMAIL => 'test@test.com', :FIRST_NAME => 'Daniel', :LAST_NAME => 'Piret', :USERNAME => 'donaldpiret', :MY_CITY => 'WATERLOO', :AGE => 24, :MALE => true, :STATIC => 'Static'}})
       @user.update_attributes!({:email => 'test@test.com', :first_name => 'Daniel'})

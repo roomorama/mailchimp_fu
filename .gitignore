@@ -1,3 +1,5 @@
 *~
 *.DS_Store
 .idea
+spec/dummy/db/*.sqlite3
+spec/dummy/log/*.log
