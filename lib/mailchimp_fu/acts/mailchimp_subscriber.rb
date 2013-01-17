@@ -41,7 +41,11 @@ module DonaldPiret
         end
         
         def mailchimp_client
-          @@mailchimp_client ||= Gibbon.new(self.mailchimp_config[:key])
+          return @@mailchimp_client if (class_variable_defined?(:"@@mailchimp_client"))
+          @@mailchimp_client = begin
+            Gibbon.throws_exceptions = false
+            Gibbon.new(self.mailchimp_config[:key])
+          end
         end
         
         def mailchimp_list_id
