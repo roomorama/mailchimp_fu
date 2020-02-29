@@ -53,8 +53,6 @@ GEM
     erubis (2.7.0)
     gibbon (0.3.5)
       httparty (> 0.6.0)
-      httparty (> 0.6.0)
-      json (> 1.4.0)
       json (> 1.4.0)
       rdoc
     hike (1.2.1)
@@ -94,7 +92,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (0.9.2.2)
+    rake (12.3.3)
     rdoc (3.12)
       json (~> 1.4)
     rspec (2.11.0)
