@@ -53,8 +53,6 @@ GEM
     erubis (2.7.0)
     gibbon (0.3.5)
       httparty (> 0.6.0)
-      httparty (> 0.6.0)
-      json (> 1.4.0)
       json (> 1.4.0)
       rdoc
     hike (1.2.1)
@@ -115,7 +113,7 @@ GEM
     treetop (1.4.11)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.33)
+    tzinfo (0.3.61)
     vcr (2.2.5)
     webmock (1.8.11)
       addressable (>= 2.2.7)
